@@ -9,31 +9,31 @@ function initPipelineAnimation() {
   });
 }
 
-// ─── FSM interactive diagram ─────────────────────────────────
-var FSM_INFO = {
-  LOOKING: {
-    title: 'LOOKING',
-    desc: 'System scans for target objects using G.DINO. Selects highest-confidence bounding box as the target. RPY controller centers end-effector over target.',
-    predicate: 'close_t ≜ A(B*_t) ≥ τ_close → transition to GRASPED'
+// ─── Attack type interactive cards ───────────────────────────
+var ATTACK_INFO = {
+  TEXT: {
+    title: 'Type 1: Text Modification',
+    desc: 'Manipulates on-scene text — e.g., changing "NO PARKING" to "FREE PARKING" — to reverse intended meanings or inject false instructions, deceiving both human users and perception systems.',
+    detection: 'M(d)_i,t > χ²(k_d, α)  →  description embedding Mahalanobis distance exceeds chi-square threshold'
   },
-  GRASPED: {
-    title: 'GRASPED',
-    desc: 'Object is within grasp proximity. System monitors claw detection to confirm contact. If target re-appears, returns to LOOKING; if claw detected, advances to PLACING.',
-    predicate: 'det_t(claw) = 1 → PLACING  |  det_t(target) = 1 → LOOKING'
+  VISUAL: {
+    title: 'Type 2: Visual Modification',
+    desc: 'Distorts object appearance or placement — e.g., turning a green traffic light to red or relocating a stop sign — leading to recognition errors and misinformed user decisions.',
+    detection: 'M(f)_i,t > χ²(k_f, α)  →  visual feature embedding Mahalanobis distance exceeds chi-square threshold'
   },
-  PLACING: {
-    title: 'PLACING',
-    desc: 'End-effector moves object toward goal region. Placement confirmed when object is in goal region AND release signal fires.',
-    predicate: 'in_goal_region_t = 1 ∧ release_t = 1 → PLACED'
+  OBSTRUCTION: {
+    title: 'Type 3: Obstruction',
+    desc: 'Targets critical information by occluding or deleting essential cues like exit signs, disrupting safety awareness and breaking expected perception graph relations.',
+    detection: 'High-importance node (π ≥ π_high) absent for 2 consecutive frames → labeled obstruction attack'
   },
-  PLACED: {
-    title: 'PLACED',
-    desc: 'Object placed. System evaluates goal similarity score S_t against threshold τ_goal. If goal achieved, task terminates (DONE); otherwise returns to LOOKING for next object.',
-    predicate: 'S_t ≥ τ_goal → DONE  |  otherwise → LOOKING'
+  INJECTION: {
+    title: 'Type 4: Injection',
+    desc: 'Introduces fictitious elements — fake hazard symbols, virtual labels — that embed misleading cues, divert user attention, and corrupt downstream reasoning processes.',
+    detection: 'NodeSet first appears within last 2 frames AND reasonability ρ ≤ ρ_low  →  labeled injection attack'
   }
 };
 
-function initFSM() {
+function initAttackCards() {
   var states = document.querySelectorAll('.fsm-state');
   var panel  = document.getElementById('fsm-info-panel');
   if (!states.length || !panel) return;
@@ -42,229 +42,88 @@ function initFSM() {
     function activate() {
       states.forEach(function(s) { s.classList.remove('active'); });
       el.classList.add('active');
-      var info = FSM_INFO[el.dataset.state];
+      var info = ATTACK_INFO[el.dataset.state];
       panel.innerHTML =
         '<div class="fsm-info-content">' +
           '<h4>' + info.title + '</h4>' +
           '<p>' + info.desc + '</p>' +
-          '<span class="fsm-predicate">' + info.predicate + '</span>' +
+          '<span class="fsm-predicate">' + info.detection + '</span>' +
         '</div>';
     }
     el.addEventListener('click', activate);
-    el.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') activate(); });
+    el.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') activate();
+    });
   });
 }
 
-// ─── IoU canvas demo ─────────────────────────────────────────
-function initIoUDemo() {
-  var canvasEl = document.getElementById('iou-canvas');
-  if (!canvasEl) return;
+// ─── Accuracy comparison bar chart ───────────────────────────
+function initAccuracyChart() {
+  var el = document.getElementById('accuracy-chart');
+  if (!el || typeof Chart === 'undefined') return;
 
-  // HiDPI / retina fix
-  var dpr = window.devicePixelRatio || 1;
-  var LW = 560, LH = 360; // logical (CSS) dimensions
-  canvasEl.width  = LW * dpr;
-  canvasEl.height = LH * dpr;
-  canvasEl.style.width  = LW + 'px';
-  canvasEl.style.height = LH + 'px';
-
-  var ctx = canvasEl.getContext('2d');
-  ctx.scale(dpr, dpr);
-  var W = LW, H = LH;
-
-  // Goal box (fixed, dark dashed)
-  var goal = { x: W * 0.15, y: H * 0.18, w: W * 0.38, h: H * 0.52 };
-  // Detection box (draggable + resizable, orange)
-  var det  = { x: W * 0.43, y: H * 0.27, w: W * 0.36, h: H * 0.45 };
-
-  var MIN_SIZE   = 28;
-  var HANDLE_R   = 6;  // visual radius
-  var HANDLE_HIT = 11; // hit area radius
-
-  // mode: null | 'drag' | 'resize-tl' | 'resize-tr' | 'resize-bl' | 'resize-br'
-  var mode = null;
-  var dragOffX = 0, dragOffY = 0;
-
-  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-
-  function computeIoU() {
-    var ax1 = goal.x, ay1 = goal.y, ax2 = goal.x + goal.w, ay2 = goal.y + goal.h;
-    var bx1 = det.x,  by1 = det.y,  bx2 = det.x  + det.w,  by2 = det.y  + det.h;
-    var ix1 = Math.max(ax1, bx1), iy1 = Math.max(ay1, by1);
-    var ix2 = Math.min(ax2, bx2), iy2 = Math.min(ay2, by2);
-    var inter = Math.max(0, ix2 - ix1) * Math.max(0, iy2 - iy1);
-    var union = goal.w * goal.h + det.w * det.h - inter;
-    return union > 0 ? inter / union : 0;
-  }
-
-  function computeDist() {
-    var gcx = (goal.x + goal.w / 2) / W, gcy = (goal.y + goal.h / 2) / H;
-    var dcx = (det.x  + det.w  / 2) / W, dcy = (det.y  + det.h  / 2) / H;
-    return Math.sqrt((gcx - dcx) * (gcx - dcx) + (gcy - dcy) * (gcy - dcy));
-  }
-
-  function updateStats() {
-    var iouVal = computeIoU();
-    var dist   = computeDist();
-    // matches Python _pair_score: max(0, min(1, (iou + (1 - dist)) / 2))
-    var sim    = Math.max(0.0, Math.min(1.0, (iouVal + (1.0 - dist)) / 2.0));
-    document.getElementById('iou-val').textContent  = iouVal.toFixed(3);
-    document.getElementById('dist-val').textContent = dist.toFixed(3);
-    document.getElementById('sim-val').textContent  = sim.toFixed(3);
-    document.getElementById('iou-score-bar').style.width = (sim * 100).toFixed(1) + '%';
-  }
-
-  function drawHandle(x, y) {
-    ctx.beginPath();
-    ctx.arc(x, y, HANDLE_R, 0, Math.PI * 2);
-    ctx.fillStyle = '#e67e22';
-    ctx.fill();
-    ctx.lineWidth = 1.5;
-    ctx.strokeStyle = '#fff';
-    ctx.stroke();
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-
-    // Intersection highlight
-    var ix1 = Math.max(goal.x, det.x), iy1 = Math.max(goal.y, det.y);
-    var ix2 = Math.min(goal.x + goal.w, det.x + det.w);
-    var iy2 = Math.min(goal.y + goal.h, det.y + det.h);
-    if (ix2 > ix1 && iy2 > iy1) {
-      ctx.fillStyle = 'rgba(100,180,100,0.22)';
-      ctx.fillRect(ix1, iy1, ix2 - ix1, iy2 - iy1);
+  new Chart(el, {
+    type: 'bar',
+    data: {
+      labels: ['Text', 'Visual', 'Obstruction', 'Injection', 'Non-attack'],
+      datasets: [
+        {
+          label: 'CADAR (Ours)',
+          data: [72.0, 73.4, 80.7, 75.6, 71.5],
+          backgroundColor: '#363636'
+        },
+        {
+          label: 'GPT-5-mini',
+          data: [55.2, 53.7, 58.5, 60.9, 65.1],
+          backgroundColor: '#3b82f6'
+        },
+        {
+          label: 'Gemini-2.5-flash',
+          data: [60.4, 53.9, 50.4, 60.3, 44.3],
+          backgroundColor: '#8b5cf6'
+        },
+        {
+          label: 'ViViT',
+          data: [39.7, 28.0, 52.8, 35.2, 26.8],
+          backgroundColor: '#f59e0b'
+        },
+        {
+          label: '3D ResNet',
+          data: [18.4, 10.6, 6.0, 11.6, 14.8],
+          backgroundColor: '#ef4444'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 14 } },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              return ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%';
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+        y: {
+          min: 0, max: 100,
+          ticks: {
+            callback: function(v) { return v + '%'; },
+            font: { size: 11 }
+          },
+          grid: { color: '#f0f0f0' }
+        }
+      }
     }
-
-    // Goal box (dark dashed)
-    ctx.strokeStyle = '#363636';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([6, 3]);
-    ctx.strokeRect(goal.x, goal.y, goal.w, goal.h);
-    ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(54,54,54,0.04)';
-    ctx.fillRect(goal.x, goal.y, goal.w, goal.h);
-    ctx.fillStyle = '#363636';
-    ctx.font = 'bold 11px "Space Mono", monospace';
-    ctx.fillText('Goal State', goal.x + 6, goal.y + 15);
-
-    // Detection box (orange, solid)
-    ctx.strokeStyle = '#e67e22';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(det.x, det.y, det.w, det.h);
-    ctx.fillStyle = 'rgba(230,126,34,0.07)';
-    ctx.fillRect(det.x, det.y, det.w, det.h);
-    ctx.fillStyle = '#b5571a';
-    ctx.font = 'bold 11px "Space Mono", monospace';
-    ctx.fillText('Detection', det.x + 6, det.y + 15);
-
-    // Center dots
-    ctx.fillStyle = '#363636';
-    ctx.beginPath(); ctx.arc(goal.x + goal.w/2, goal.y + goal.h/2, 4, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#e67e22';
-    ctx.beginPath(); ctx.arc(det.x + det.w/2, det.y + det.h/2, 4, 0, Math.PI*2); ctx.fill();
-
-    // Center distance dashed line
-    ctx.strokeStyle = 'rgba(100,100,100,0.35)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(goal.x + goal.w/2, goal.y + goal.h/2);
-    ctx.lineTo(det.x  + det.w/2,  det.y  + det.h/2);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Corner resize handles on detection box
-    drawHandle(det.x,           det.y);
-    drawHandle(det.x + det.w,   det.y);
-    drawHandle(det.x,           det.y + det.h);
-    drawHandle(det.x + det.w,   det.y + det.h);
-
-    updateStats();
-  }
-
-  function getPos(e) {
-    var r = canvasEl.getBoundingClientRect();
-    var cx = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
-    var cy = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
-    return { x: cx * (W / r.width), y: cy * (H / r.height) };
-  }
-
-  function hitHandle(p, hx, hy) {
-    return Math.abs(p.x - hx) <= HANDLE_HIT && Math.abs(p.y - hy) <= HANDLE_HIT;
-  }
-
-  function pickMode(p) {
-    if (hitHandle(p, det.x,           det.y))          return 'resize-tl';
-    if (hitHandle(p, det.x + det.w,   det.y))          return 'resize-tr';
-    if (hitHandle(p, det.x,           det.y + det.h))  return 'resize-bl';
-    if (hitHandle(p, det.x + det.w,   det.y + det.h))  return 'resize-br';
-    if (p.x >= det.x && p.x <= det.x + det.w &&
-        p.y >= det.y && p.y <= det.y + det.h)          return 'drag';
-    return null;
-  }
-
-  function setCursor(m) {
-    if (!m || m === null)        canvasEl.style.cursor = 'default';
-    else if (m === 'drag')       canvasEl.style.cursor = 'grab';
-    else if (m === 'resize-tl' || m === 'resize-br') canvasEl.style.cursor = 'nwse-resize';
-    else                         canvasEl.style.cursor = 'nesw-resize';
-  }
-
-  function onDown(e) {
-    var p = getPos(e);
-    mode = pickMode(p);
-    if (mode === 'drag') { dragOffX = p.x - det.x; dragOffY = p.y - det.y; }
-    if (mode && e.cancelable) e.preventDefault();
-    if (mode === 'drag') canvasEl.style.cursor = 'grabbing';
-  }
-
-  function onMove(e) {
-    if (!mode) { setCursor(pickMode(getPos(e))); return; }
-    if (e.cancelable) e.preventDefault();
-    var p = getPos(e);
-    if (mode === 'drag') {
-      det.x = clamp(p.x - dragOffX, 0, W - det.w);
-      det.y = clamp(p.y - dragOffY, 0, H - det.h);
-    } else if (mode === 'resize-br') {
-      det.w = clamp(p.x - det.x, MIN_SIZE, W - det.x);
-      det.h = clamp(p.y - det.y, MIN_SIZE, H - det.y);
-    } else if (mode === 'resize-bl') {
-      var nx = clamp(p.x, 0, det.x + det.w - MIN_SIZE);
-      det.w = (det.x + det.w) - nx; det.x = nx;
-      det.h = clamp(p.y - det.y, MIN_SIZE, H - det.y);
-    } else if (mode === 'resize-tr') {
-      det.w = clamp(p.x - det.x, MIN_SIZE, W - det.x);
-      var ny = clamp(p.y, 0, det.y + det.h - MIN_SIZE);
-      det.h = (det.y + det.h) - ny; det.y = ny;
-    } else if (mode === 'resize-tl') {
-      var nx2 = clamp(p.x, 0, det.x + det.w - MIN_SIZE);
-      det.w = (det.x + det.w) - nx2; det.x = nx2;
-      var ny2 = clamp(p.y, 0, det.y + det.h - MIN_SIZE);
-      det.h = (det.y + det.h) - ny2; det.y = ny2;
-    }
-    draw();
-  }
-
-  function onUp() { mode = null; canvasEl.style.cursor = 'grab'; }
-
-  canvasEl.addEventListener('mousedown',  onDown);
-  canvasEl.addEventListener('touchstart', onDown, { passive: false });
-  window.addEventListener('mouseup',    onUp);
-  window.addEventListener('touchend',   onUp);
-  window.addEventListener('mousemove',  onMove);
-  canvasEl.addEventListener('touchmove', function(e) {
-    if (!mode) return;
-    onMove(e);
-  }, { passive: false });
-
-  draw();
+  });
 }
-
 
 // ─── Success bars animate-in on scroll ───────────────────────
 function initSuccessBars() {
-  var bars = document.querySelectorAll('.success-bar:not(.success-bar-tbd)');
+  var bars = document.querySelectorAll('.success-bar');
   if (!bars.length) return;
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
@@ -283,47 +142,6 @@ function initSuccessBars() {
   bars.forEach(function(b) { observer.observe(b); });
 }
 
-// ─── Likert chart ─────────────────────────────────────────────
-function initLikertChart() {
-  var el = document.getElementById('likert-chart');
-  if (!el || typeof Chart === 'undefined') return;
-
-  // Monochromatic green palette matching paper figure (lightest→darkest)
-  // Percentages estimated from paper fig 6.5v2, sums to 100 per category
-  new Chart(el, {
-    type: 'bar',
-    data: {
-      labels: ['Two-Group Cross', 'Triple-Attribute', 'Three-Way Spatial', 'Overlapping'],
-      datasets: [
-        { label: '1 – Strongly Disagree', data: [13, 15,  7,  9], backgroundColor: '#c8e6c9' },
-        { label: '2',                     data: [10, 13, 11, 13], backgroundColor: '#81c784' },
-        { label: '3',                     data: [13, 12, 14, 13], backgroundColor: '#4caf50' },
-        { label: '4',                     data: [17, 17, 19, 18], backgroundColor: '#2e7d32' },
-        { label: '5 – Strongly Agree',    data: [47, 43, 49, 47], backgroundColor: '#1b5e20' }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12 } },
-        tooltip: {
-          callbacks: {
-            label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y + '%'; }
-          }
-        }
-      },
-      scales: {
-        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 11 } } },
-        y: {
-          stacked: true, max: 100,
-          ticks: { callback: function(v) { return v + '%'; }, font: { size: 11 } },
-          grid: { color: '#f0f0f0' }
-        }
-      }
-    }
-  });
-}
-
 // ─── Sortable comparison table ────────────────────────────────
 function initSortableTable() {
   var table = document.getElementById('comparison-table');
@@ -333,20 +151,25 @@ function initSortableTable() {
 
   headers.forEach(function(th) {
     th.addEventListener('click', function() {
-      var col = this.dataset.col;
-      if (sortState.col === col) { sortState.asc = !sortState.asc; }
-      else { sortState.col = col; sortState.asc = true; }
+      var colIdx = parseInt(this.dataset.col, 10);
+      if (sortState.col === colIdx) { sortState.asc = !sortState.asc; }
+      else { sortState.col = colIdx; sortState.asc = true; }
 
       var tbody = table.querySelector('tbody');
       var rows  = Array.from(tbody.querySelectorAll('tr'));
 
       rows.sort(function(a, b) {
-        var aEl = col === 'demos' ? a.querySelector('td[data-val]') : a.querySelector('td');
-        var bEl = col === 'demos' ? b.querySelector('td[data-val]') : b.querySelector('td');
-        var aV  = col === 'demos' ? parseFloat(aEl.dataset.val) : aEl.textContent.trim().toLowerCase();
-        var bV  = col === 'demos' ? parseFloat(bEl.dataset.val) : bEl.textContent.trim().toLowerCase();
-        if (typeof aV === 'number') return sortState.asc ? aV - bV : bV - aV;
-        return sortState.asc ? aV.localeCompare(bV) : bV.localeCompare(aV);
+        var aCells = a.querySelectorAll('td');
+        var bCells = b.querySelectorAll('td');
+        if (!aCells[colIdx] || !bCells[colIdx]) return 0;
+        var aEl = aCells[colIdx];
+        var bEl = bCells[colIdx];
+        var aV = aEl.dataset.val !== undefined ? parseFloat(aEl.dataset.val) : aEl.textContent.trim().toLowerCase();
+        var bV = bEl.dataset.val !== undefined ? parseFloat(bEl.dataset.val) : bEl.textContent.trim().toLowerCase();
+        if (typeof aV === 'number' && typeof bV === 'number') {
+          return sortState.asc ? aV - bV : bV - aV;
+        }
+        return sortState.asc ? String(aV).localeCompare(String(bV)) : String(bV).localeCompare(String(aV));
       });
 
       rows.forEach(function(r) { tbody.appendChild(r); });
@@ -390,14 +213,14 @@ function initNavbar() {
   });
 }
 
-// ─── Image modal ─────────────────────────────────────────────
+// ─── Image modal ──────────────────────────────────────────────
 function setupImageModal() {
-  var modal      = document.getElementById('image-modal');
+  var modal = document.getElementById('image-modal');
   if (!modal) return;
   var modalImage = document.getElementById('modal-image');
   var closeBtns  = modal.querySelectorAll('.modal-background, .modal-close');
 
-  $(document).on('click', '.gallery-slide img, #maps-gallery img, .figure-block img', function() {
+  $(document).on('click', '.figure-block img', function() {
     modalImage.src = this.src;
     modalImage.alt = this.alt || '';
     modal.classList.add('is-active');
@@ -418,7 +241,7 @@ function setupImageModal() {
   });
 }
 
-// ─── Paper figure scroll-fade ─────────────────────────────────
+// ─── Figure scroll-fade ───────────────────────────────────────
 function initFigureAnimations() {
   var figs = document.querySelectorAll('.figure-block');
   if (!figs.length) return;
@@ -437,10 +260,9 @@ function initFigureAnimations() {
 $(document).ready(function() {
   initNavbar();
   initPipelineAnimation();
-  initFSM();
-  initIoUDemo();
+  initAttackCards();
+  initAccuracyChart();
   initSuccessBars();
-  initLikertChart();
   initSortableTable();
   initBibTexCopy();
   setupImageModal();

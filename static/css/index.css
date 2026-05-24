@@ -1,11 +1,11 @@
 /* ─────────────────────────────────────────────────────────────
-   GRASP project page — nerfies.github.io visual style
+   CADAR project page — nerfies.github.io visual style
    Clean white academic, Bulma-based, minimal colour
 ───────────────────────────────────────────────────────────── */
 
-/* ─── Nerfies palette ─────────────────────────────────────── */
+/* ─── Palette ─────────────────────────────────────────────── */
 :root {
-  --nerfies-link:   hsl(204, 86%, 53%);   /* Bulma info blue */
+  --nerfies-link:   hsl(204, 86%, 53%);
   --nerfies-border: #dbdbdb;
   --nerfies-bg-alt: #f5f5f5;
   --nerfies-text:   #363636;

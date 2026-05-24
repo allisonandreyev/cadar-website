@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="GRASP: A Neuro-symbolic Approach for Language-Conditioned Robot Manipulation">
-  <meta name="keywords" content="GRASP, robotics, neuro-symbolic, language-conditioned manipulation, GroundingDINO">
+  <meta name="description" content="CADAR: Cognitive Attack Detection in Augmented Reality — A Neuro-Symbolic Approach with Particle Filtering on Perception Graphs">
+  <meta name="keywords" content="CADAR, augmented reality, cognitive attack detection, neuro-symbolic, particle filter, perception graph, AR security, VLM">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GRASP</title>
+  <title>CADAR</title>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
   <script>
@@ -22,7 +22,6 @@
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.svg">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
@@ -37,123 +36,144 @@
 <section class="hero">
   <div class="hero-body">
     <div class="container is-max-desktop has-text-centered">
-      <h1 class="title is-1 publication-title">
-        🎯 GRASP
-      </h1>
-      <p class="subtitle is-3 hero-subtitle">Bounding Boxes as Goals: Grounding Language for Zero-Shot Robotic Sorting</p>
-      <div class="is-size-5 publication-authors" style="margin-top:0.5rem;">
-        <span class="author-block">Allison Andreyev, Landon Eum, Nestor Tiglao, Romel Gomez</span>
+      <h1 class="title is-1 publication-title">CADAR</h1>
+      <p class="subtitle is-4 hero-subtitle">Cognitive Attack Detection in Augmented Reality:<br>A Neuro-Symbolic Approach with Particle Filtering on Perception Graphs</p>
+      <div class="is-size-5 publication-authors" style="margin-top:0.75rem;line-height:2;">
+        <span class="author-block">Rongqian Chen<sup>1*</sup>,&nbsp;</span>
+        <span class="author-block">Allison Andreyev<sup>1†</sup>,&nbsp;</span>
+        <span class="author-block">Yanming Xiu<sup>2</sup>,&nbsp;</span>
+        <span class="author-block">Joshua Chilukuri<sup>2</sup>,&nbsp;</span>
+        <span class="author-block">Shunav Sen<sup>2</sup>,&nbsp;</span>
+        <span class="author-block">Mahdi Imani<sup>4</sup>,&nbsp;</span>
+        <span class="author-block">Bin Li<sup>3</sup>,&nbsp;</span>
+        <span class="author-block">Maria Gorlatova<sup>2</sup>,&nbsp;</span>
+        <span class="author-block">Gang Tan<sup>3</sup>,&nbsp;</span>
+        <span class="author-block">Tian Lan<sup>1</sup></span>
       </div>
-      <div class="is-size-6 publication-authors" style="margin-top:0.25rem;">
-        <span class="author-block">Cyberphysical Systems Engineering, UMD College Park</span>
+      <div class="is-size-6 publication-authors" style="margin-top:0.4rem;">
+        <span class="author-block"><sup>1</sup>George Washington University&ensp;</span>
+        <span class="author-block"><sup>2</sup>Duke University&ensp;</span>
+        <span class="author-block"><sup>3</sup>Pennsylvania State University&ensp;</span>
+        <span class="author-block"><sup>4</sup>Northeastern University</span>
+      </div>
+      <div class="is-size-7 publication-authors" style="margin-top:0.3rem;color:#999;">
+        <span>* Corresponding author &nbsp;·&nbsp; † Thomas S. Wootton High School; work done during an internship at GWU</span>
       </div>
       <div class="video-link-row" style="margin-top:1.25rem;">
-        <a href="" class="video-pill">
+        <a href="https://arxiv.org/pdf/2508.09185" class="video-pill" target="_blank">
           <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span>
         </a>
-        <a href="https://github.com/allisonandreyev/grasp" class="video-pill" target="_blank">
+        <a href="" class="video-pill" target="_blank">
           <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+        </a>
+        <a href="" class="video-pill" target="_blank">
+          <span class="icon"><i class="fas fa-database"></i></span><span>CADAR-50K Dataset</span>
         </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════ TEASER ══════════════════════ -->
-<section class="section grasp-section-light" id="teaser">
+<!-- ══════════════════════ DEMO VIDEO ══════════════════════ -->
+<section class="section" id="demo-video" style="padding-top:2rem;padding-bottom:2rem;">
   <div class="container is-max-desktop">
-    <div class="figure-block visible">
-      <img src="./figures/fig2.png" alt="GRASP main loop architecture">
-      <p class="figure-caption"><strong>Figure 2.</strong> The GRASP main loop. GroundingDINO detects objects from shelf and desk frames; the Goal State Similarity Module computes IoU and center distance; Roll-Pitch-Yaw adjustments close the loop until the similarity threshold is met.</p>
-    </div>
+    <video autoplay muted loop playsinline style="width:100%;border-radius:8px;display:block;">
+      <source src="./figures/CADAR_demo.mp4" type="video/mp4">
+    </video>
   </div>
 </section>
+
 
 <!-- ══════════════════════ ABSTRACT + CARDS ══════════════════════ -->
 <section class="section" id="abstract">
   <div class="container is-max-desktop">
     <h2 class="title is-3 section-heading">Abstract</h2>
     <div class="content has-text-justified abstract-text">
-      <p>For robotics to be effectively integrated into household or industrial environments, machines must adapt to natural-language prompts in real time. Although Vision-Language Models (VLMs) have enabled zero-shot generalization in robot task and motion planning (TAMP), current state-of-the-art approaches often remain computationally <b>heavyweight</b> or require extensive training on thousands of demonstrations.</p>
-      <p>We present GRASP (Grounded Reasoning and Symbolic Planning), a framework designed for open-world tabletop manipulation. Our approach leverages a pretrained VLM to translate natural-language queries into neuro-symbolic goal states, which are then grounded in the physical world via a specialized bounding-box detection pipeline. Unlike previous methods that rely on fixed color lists or hard-coded coordinates, GRASP enables robots to interpret abstract spatial concepts—such as <b>top shelf</b>—and execute tasks without additional fine-tuning. Experimental results demonstrate that our system achieves high instruction compliance and precision, offering a scalable solution for general-purpose robotic sorting and arrangement.</p>
+      <p>Augmented Reality (AR) enriches human perception by overlaying virtual elements onto the physical world. However, this tight coupling between virtual and real content makes AR vulnerable to <b>cognitive attacks</b>: manipulations that distort users' semantic understanding of the environment. Existing detection methods largely focus on visual inconsistencies at the pixel or image level, offering limited semantic reasoning or interpretability.</p>
+      <p>To address these limitations, we introduce <b>CADAR</b>, a neuro-symbolic framework for cognitive attack detection in AR that integrates neural and symbolic reasoning. CADAR fuses multimodal vision–language representations from pre-trained models into a <b>perception graph</b> that captures objects, relations, and temporal contextual salience. Building on this structure, a <b>particle-filter-based</b> statistical reasoning module infers anomalies in semantic dynamics to reveal cognitive attacks. This combination provides both the adaptability of modern vision–language models and the interpretability of probabilistic symbolic reasoning. Preliminary experiments on the CADAR-50K dataset demonstrate consistent advantages over existing approaches, achieving <b>74.6% accuracy</b> and outperforming the next best baseline by <b>16%</b>.</p>
     </div>
 
     <div class="contrib-cards">
       <div class="contrib-card">
         <div class="contrib-icon"><i class="fas fa-project-diagram"></i></div>
-        <h3>Neuro-Symbolic Goal States</h3>
-        <p>Natural language instructions compiled into explicit symbolic goal states, enabling interpretable and verifiable task execution.</p>
+        <h3>Neuro-Symbolic Framework</h3>
+        <p>A hybrid architecture converting VLM outputs into symbolic perception graphs for explicit, interpretable reasoning in AR cognitive attack detection.</p>
       </div>
       <div class="contrib-card">
-        <div class="contrib-icon"><i class="fas fa-sync-alt"></i></div>
-        <h3>Closed-Loop FSM Control</h3>
-        <p>Closed-loop symbolic goal evaluation replaces policy fine-tuning for small-scale open-world rearrangement with zero-shot execution.</p>
+        <div class="contrib-icon"><i class="fas fa-sitemap"></i></div>
+        <h3>Perception Graph Schema</h3>
+        <p>A spatio-temporal graph integrating multimodal signals from image/text encoders and detection modules to capture semantic scene evolution across time.</p>
       </div>
       <div class="contrib-card">
-        <div class="contrib-icon"><i class="fas fa-crosshairs"></i></div>
-        <h3>Zero-Shot Grounding</h3>
-        <p>A lightweight grounding and proportional control pipeline links open-vocabulary detection to continuous motion without learned action policies.</p>
+        <div class="contrib-icon"><i class="fas fa-filter"></i></div>
+        <h3>Particle-Filter Reasoning</h3>
+        <p>Particle filtering on symbolic perception graphs improves robustness to noisy VLM outputs and enables principled statistical anomaly detection.</p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon"><i class="fas fa-database"></i></div>
+        <h3>CADAR-50K Dataset</h3>
+        <p>The first publicly available AR cognitive-attack dataset: 375 videos and 50K+ frames covering all seven attack and scene categories.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════ ANIMATED PIPELINE ══════════════════════ -->
+<!-- ══════════════════════ SYSTEM OVERVIEW ══════════════════════ -->
 <section class="section grasp-section-light" id="pipeline">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 section-heading">System Pipeline</h2>
-    <p class="section-subheading">At each timestep, GRASP closes the loop between language, perception, and action.</p>
+    <h2 class="title is-3 section-heading">System Overview</h2>
+    <p class="section-subheading">CADAR processes sequential AR frames through two tightly coupled modules: a symbolic perception graph and a particle filter-based detector.</p>
 
     <div class="pipeline-anim" id="pipeline-anim">
       <div class="pipe-step" data-step="0">
         <div class="pipe-node pipe-input">
-          <i class="fas fa-comment-alt"></i>
-          <span class="pipe-label">User Input</span>
-          <span class="pipe-detail">"Place blue objects on top shelf"</span>
+          <i class="fas fa-video"></i>
+          <span class="pipe-label">AR Video</span>
+          <span class="pipe-detail">Sequential frames I<sub>t</sub></span>
         </div>
       </div>
       <div class="pipe-arrow" data-step="1"><i class="fas fa-chevron-right"></i></div>
       <div class="pipe-step" data-step="2">
         <div class="pipe-node pipe-llm">
           <i class="fas fa-brain"></i>
-          <span class="pipe-label">LLM</span>
-          <span class="pipe-detail pipe-mono">JSON goal state</span>
+          <span class="pipe-label">VLM</span>
+          <span class="pipe-detail pipe-mono">OWLv2 + SAM2</span>
         </div>
       </div>
       <div class="pipe-arrow" data-step="3"><i class="fas fa-chevron-right"></i></div>
       <div class="pipe-step" data-step="4">
         <div class="pipe-node pipe-gdino">
-          <i class="fas fa-search"></i>
-          <span class="pipe-label">G.DINO</span>
-          <span class="pipe-detail">Bounding boxes</span>
+          <i class="fas fa-project-diagram"></i>
+          <span class="pipe-label">Perception Graph</span>
+          <span class="pipe-detail">G<sub>t</sub>(V<sub>t</sub>, E<sub>t</sub>)</span>
         </div>
       </div>
       <div class="pipe-arrow" data-step="5"><i class="fas fa-chevron-right"></i></div>
       <div class="pipe-step" data-step="6">
         <div class="pipe-node pipe-sim">
-          <i class="fas fa-equals"></i>
-          <span class="pipe-label">Goal Similarity</span>
-          <span class="pipe-detail">IoU + center distance</span>
+          <i class="fas fa-filter"></i>
+          <span class="pipe-label">Particle Filter</span>
+          <span class="pipe-detail">Match → Detect → Estimate</span>
         </div>
       </div>
       <div class="pipe-arrow" data-step="7"><i class="fas fa-chevron-right"></i></div>
       <div class="pipe-step" data-step="8">
         <div class="pipe-node pipe-fsm">
-          <i class="fas fa-robot"></i>
-          <span class="pipe-label">FSM + RPY</span>
-          <span class="pipe-detail">Closed-loop actuation</span>
+          <i class="fas fa-shield-alt"></i>
+          <span class="pipe-label">Attack Detection</span>
+          <span class="pipe-detail">Type + localization</span>
         </div>
       </div>
     </div>
 
     <div class="pipeline-loop-indicator pipeline-loop-light">
       <i class="fas fa-redo-alt"></i>
-      <span>Closed loop — re-evaluates every frame until goal is reached</span>
+      <span>Temporal — persistent object identity maintained via NodeSet/EdgeSet across the full video sequence</span>
     </div>
 
     <div class="figure-block">
-      <img src="./figures/fig0.png" alt="GRASP teaser: user input, task execution, and goal state">
-      <p class="figure-caption">Given a natural language instruction, GRASP grounds it into a symbolic goal state, executes the manipulation task, and evaluates completion via bounding box similarity.</p>
+      <img src="./figures/system_overview.png" alt="CADAR system overview" style="max-width:70%;">
+      <p class="figure-caption"><strong>Figure 2.</strong> A system overview of CADAR. Sequential video frames are first transformed into spatial-temporal symbolic perception graphs. The attack-detection module then analyzes these graphs to identify, classify, and localize adversarial attacks such as visual modification and injection attacks.</p>
     </div>
   </div>
 </section>
@@ -163,387 +183,313 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 section-heading">Method</h2>
 
-    <!-- FSM -->
+    <!-- Attack types interactive -->
     <div class="method-block">
-      <h3 class="title is-4 method-subheading">Finite State Machine</h3>
-      <p class="method-desc">Click any state to see its transition predicates.</p>
+      <h3 class="title is-4 method-subheading">Cognitive Attack Types</h3>
+      <p class="method-desc">CADAR detects four classes of cognitive attack. Click any type to see how it is detected.</p>
       <div class="fsm-diagram" id="fsm-diagram">
-        <div class="fsm-state" data-state="LOOKING" tabindex="0">
-          <div class="fsm-state-inner"><i class="fas fa-eye"></i><span>LOOKING</span></div>
+        <div class="fsm-state" data-state="TEXT" tabindex="0">
+          <div class="fsm-state-inner"><i class="fas fa-font"></i><span>Text Modification</span></div>
         </div>
-        <div class="fsm-connector">
-          <div class="fsm-arrow-line"></div>
-          <div class="fsm-transition-label">close<sub>t</sub></div>
+        <div class="fsm-state" data-state="VISUAL" tabindex="0">
+          <div class="fsm-state-inner"><i class="fas fa-eye"></i><span>Visual Modification</span></div>
         </div>
-        <div class="fsm-state" data-state="GRASPED" tabindex="0">
-          <div class="fsm-state-inner"><i class="fas fa-hand-rock"></i><span>GRASPED</span></div>
+        <div class="fsm-state" data-state="OBSTRUCTION" tabindex="0">
+          <div class="fsm-state-inner"><i class="fas fa-ban"></i><span>Obstruction</span></div>
         </div>
-        <div class="fsm-connector">
-          <div class="fsm-arrow-line"></div>
-          <div class="fsm-transition-label">det(claw)</div>
-        </div>
-        <div class="fsm-state" data-state="PLACING" tabindex="0">
-          <div class="fsm-state-inner"><i class="fas fa-arrows-alt"></i><span>PLACING</span></div>
-        </div>
-        <div class="fsm-connector">
-          <div class="fsm-arrow-line"></div>
-          <div class="fsm-transition-label">in_goal ∧ release</div>
-        </div>
-        <div class="fsm-state" data-state="PLACED" tabindex="0">
-          <div class="fsm-state-inner"><i class="fas fa-check-circle"></i><span>PLACED</span></div>
+        <div class="fsm-state" data-state="INJECTION" tabindex="0">
+          <div class="fsm-state-inner"><i class="fas fa-plus-circle"></i><span>Injection</span></div>
         </div>
       </div>
       <div class="fsm-info-panel" id="fsm-info-panel">
-        <p class="fsm-hint"><i class="fas fa-info-circle"></i> Click a state above to see details</p>
+        <p class="fsm-hint"><i class="fas fa-info-circle"></i> Click an attack type above to see its description and detection mechanism</p>
+      </div>
+      <div class="figure-block" style="margin-top:1.5rem;">
+        <img src="./figures/attack_examples.png" alt="Illustrative AR/MR cognitive attacks">
+        <p class="figure-caption"><strong>Figure 1.</strong> Illustrative AR/MR cognitive attacks. Top row: original scenes; bottom row: manipulated scenes. (a) Text Modification Attack — alters on-scene text to reverse meaning. (b) Visual Modification Attack — distorts object color or placement. (c) Obstruction Attack — occludes critical cues. (d) Injection Attack — inserts fictitious elements.</p>
       </div>
     </div>
 
-    <!-- LLM prompt → goal state figure -->
+    <!-- Perception graph -->
     <div class="method-block">
-      <h3 class="title is-4 method-subheading">LLM Prompt → Goal State</h3>
-      <p class="method-desc">A structured prompt instructs the LLM to return a JSON goal state; GroundingDINO candidates are used to ground each label to a bounding box in the scene.</p>
+      <h3 class="title is-4 method-subheading">3.2 — Perception Graph Model</h3>
+      <p class="method-desc">Given an AR frame I<sub>t</sub> and task context c<sub>t</sub>, a pre-trained VLM lifts the frame into a spatio-temporal perception graph G<sub>t</sub> = (V<sub>t</sub>, E<sub>t</sub>). Nodes represent objects with multimodal attributes (name, description, visual features, probability, importance, reasonability). Edges encode pairwise semantic relationships. Across time, NodeSets and EdgeSets stitch object instances into a persistent GraphSet Ĝ<sub>t</sub>.</p>
       <div class="figure-block">
-        <img src="./figures/fig1.png" alt="LLM prompt structure and resulting goal state JSON">
-        <p class="figure-caption"><strong>Figure 1.</strong> User input and LLM prompt (left) produce a structured JSON goal state with per-label bounding box coordinates, which are then visualized on the shelf (right).</p>
+        <img src="./figures/perception_graph.png" alt="Symbolic perception graph generation">
+        <p class="figure-caption"><strong>Figure 3.</strong> Symbolic perception graph generation: given a video frame and its contextual description, VLMs generate the corresponding perception graph at time step t. Node and edge attributes are extracted via structured prompts to capture multimodal scene semantics.</p>
       </div>
     </div>
 
-    <!-- IoU demo -->
+    <!-- Particle filter -->
     <div class="method-block">
-      <h3 class="title is-4 method-subheading">Interactive Similarity Score</h3>
-      <p class="method-desc">Drag or resize the <span style="color:#e67e22;font-weight:600;">orange detection box</span> to explore how IoU and center distance combine into the similarity score: <span class="fsm-predicate">S = max(0, min(1, (IoU + (1 − dist)) / 2))</span></p>
-      <div class="iou-demo-wrap">
-        <canvas id="iou-canvas" width="420" height="280"></canvas>
-        <div class="iou-stats">
-          <div class="iou-stat">
-            <span class="iou-stat-label">IoU</span>
-            <span class="iou-stat-val" id="iou-val">—</span>
-          </div>
-          <div class="iou-stat">
-            <span class="iou-stat-label">Center Dist</span>
-            <span class="iou-stat-val" id="dist-val">—</span>
-          </div>
-          <div class="iou-stat iou-stat-total">
-            <span class="iou-stat-label">Similarity Score</span>
-            <span class="iou-stat-val" id="sim-val">—</span>
-          </div>
-          <div class="iou-score-bar-wrap">
-            <div class="iou-score-bar" id="iou-score-bar"></div>
-          </div>
+      <h3 class="title is-4 method-subheading">3.3 — Particle Filter Model</h3>
+      <p class="method-desc">Each graph entity is treated as a particle. The filter runs three stages at every frame:</p>
+      <div class="ablation-cards" style="margin-bottom:1.5rem;">
+        <div class="ablation-card">
+          <div class="ablation-icon"><i class="fas fa-link"></i></div>
+          <h4>1 — Prediction &amp; Matching</h4>
+          <p>Cosine similarity over name, description, and visual embeddings determines whether each new node belongs to an existing NodeSet or spawns a new identity. An Active Level A<sub>i</sub><sup>t</sup> ∈ [0,3] tracks recency.</p>
+        </div>
+        <div class="ablation-card">
+          <div class="ablation-icon"><i class="fas fa-search"></i></div>
+          <h4>2 — Attack Detection</h4>
+          <p>PCA projection + Mahalanobis distance flags Type 1/2 anomalies in embedding space. Type 3/4 use lightweight temporal heuristics: missing high-importance nodes → obstruction; new low-reasonability nodes → injection.</p>
+        </div>
+        <div class="ablation-card">
+          <div class="ablation-icon"><i class="fas fa-balance-scale"></i></div>
+          <h4>3 — Estimation</h4>
+          <p>Weighted resampling over clean historical particles refines each non-attack observation, preventing noisy or missed-detection VLM outputs from corrupting the ground-truth reference set.</p>
         </div>
       </div>
-      <div class="sim-examples" style="margin-top:1.5rem;">
-        <!-- (a) Low similarity -->
-        <div class="sim-panel">
-          <div class="sim-panel-scenes">
-            <div class="sim-scene-half">
-              <div class="sim-scene-title">Goal State</div>
-              <div class="sim-scene-area">
-                <div class="sim-box sim-box-goal" style="left:5%;top:5%;width:42%;height:45%">metal things</div>
-                <div class="sim-box sim-box-goal" style="left:5%;top:56%;width:58%;height:30%">metal things</div>
-              </div>
-            </div>
-            <div class="sim-scene-half">
-              <div class="sim-scene-title">Shelf State</div>
-              <div class="sim-scene-area">
-                <div class="sim-box sim-box-detect" style="left:32%;top:22%;width:48%;height:22%">metal things</div>
-                <div class="sim-box sim-box-detect" style="left:10%;top:60%;width:68%;height:22%">metal things</div>
-              </div>
-            </div>
+      <div class="figure-block">
+        <img src="./figures/attack_detection.png" alt="Particle filter-based attack detection framework">
+        <p class="figure-caption"><strong>Figure 4.</strong> The particle filter-based attack detection framework. Nodes are matched to persistent NodeSets, statistically tested for attacks via PCA + Mahalanobis distance, and then refined via weighted resampling. Attacked particles are isolated from the clean reference set.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════ DATASET ══════════════════════ -->
+<section class="section grasp-section-light" id="dataset">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 section-heading">CADAR-50K Dataset</h2>
+    <p class="section-subheading">The first publicly available dataset for AR cognitive-attack analysis — 375 videos, 50K+ frames, five scene categories, four attack types.</p>
+
+    <div class="contrib-cards">
+      <div class="contrib-card">
+        <div class="contrib-icon"><i class="fas fa-film"></i></div>
+        <h3>375 Videos</h3>
+        <p>8–12 second AR-captured videos recorded via Meta Quest 3 or Samsung Galaxy S24, with virtual content introduced at a specific frame to induce an attack.</p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon"><i class="fas fa-images"></i></div>
+        <h3>50K+ Frames</h3>
+        <p>Frame-wise annotations supporting variable-length multi-label detection and localization of simultaneous attacks within a single video.</p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-icon"><i class="fas fa-map-marked-alt"></i></div>
+        <h3>5 Scene Categories</h3>
+        <p>School &amp; Office · Traffic &amp; Mobility · Industrial &amp; Infrastructure · Medical &amp; Lab · Public &amp; Home</p>
+      </div>
+    </div>
+
+    <div class="figure-block" style="margin-top:2rem;">
+      <img src="./figures/dataset_distribution_combined.png" alt="CADAR-50K dataset distribution">
+      <p class="figure-caption"><strong>Figure 5.</strong> CADAR-50K dataset overview by scene category (left) and attack type (right). Non-attack and hybrid/multiple-attack videos are included for realistic evaluation.</p>
+    </div>
+
+    <div class="method-block" style="margin-top:2.5rem;">
+      <h3 class="title is-4 method-subheading">Data Collection Methods</h3>
+      <div class="difficulty-cards">
+        <div class="diff-card diff-easy">
+          <div class="diff-header">
+            <span class="diff-badge badge-easy">Virtual Scene Method</span>
           </div>
-          <div class="sim-panel-foot">
-            <span class="sim-user-prompt">"place the metal things to the right side of the 2 bottom shelves"</span>
-            <span class="sim-score-badge low">Score: 0.266</span>
+          <div class="diff-objects" style="padding:1rem;">
+            <p style="font-size:0.88rem;color:#555;margin:0;line-height:1.6;">Fully synthetic environments displayed on a monitor or VR headset, with AR content overlaid and captured via video recording. Enables rapid, controllable creation of diverse attack scenarios.</p>
           </div>
         </div>
-        <!-- (b) High similarity -->
-        <div class="sim-panel">
-          <div class="sim-panel-scenes">
-            <div class="sim-scene-half">
-              <div class="sim-scene-title">Goal State</div>
-              <div class="sim-scene-area">
-                <div class="sim-box sim-box-goal" style="left:10%;top:10%;width:40%;height:38%">basketball</div>
-              </div>
-            </div>
-            <div class="sim-scene-half">
-              <div class="sim-scene-title">Shelf State</div>
-              <div class="sim-scene-area">
-                <div class="sim-box sim-box-detect" style="left:13%;top:8%;width:37%;height:41%">basketball</div>
-              </div>
-            </div>
+        <div class="diff-card diff-medium">
+          <div class="diff-header">
+            <span class="diff-badge badge-medium">Real-World Method</span>
           </div>
-          <div class="sim-panel-foot">
-            <span class="sim-user-prompt">"put the basketball on top of the red cube that's on the top shelf"</span>
-            <span class="sim-score-badge high">Score: 0.783</span>
+          <div class="diff-objects" style="padding:1rem;">
+            <p style="font-size:0.88rem;color:#555;margin:0;line-height:1.6;">AR headsets record first-person views in physical environments, introducing natural noise, lighting variation, and depth cues for realistic and challenging evaluation conditions.</p>
           </div>
         </div>
       </div>
     </div>
 
+    <div class="method-block" style="margin-top:2rem;">
+      <h3 class="title is-4 method-subheading">Dataset Sample Examples</h3>
+      <div class="difficulty-cards">
+        <div class="diff-card" style="overflow:hidden;">
+          <div class="figure-block" style="margin:0;">
+            <img src="./figures/dataset1.png" alt="Dataset sample 1" style="border-radius:0;">
+          </div>
+        </div>
+        <div class="diff-card" style="overflow:hidden;">
+          <div class="figure-block" style="margin:0;">
+            <img src="./figures/dataset2.png" alt="Dataset sample 2" style="border-radius:0;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="figure-block">
+      <img src="./figures/visualization.png" alt="Visualization examples of CADAR outputs">
+      <p class="figure-caption"><strong>Figure 6.</strong> Visualization frame examples of CADAR outputs across five scene categories in CADAR-50K (375 videos). Rows show the Reference Scene, Detection Scene, and CADAR Output. Output attack types: I = Injection, V = Visual, T = Text, O = Obstruction, N = Non-attack. Some examples contain hybrid or multiple attacks.</p>
+    </div>
   </div>
 </section>
 
 <!-- ══════════════════════ RESULTS ══════════════════════ -->
-<section class="section grasp-section-light" id="results">
+<section class="section" id="results">
   <div class="container is-max-desktop">
     <h2 class="title is-3 section-heading">Results</h2>
 
-    <!-- Grasping benchmark -->
-    <h3 class="title is-4 method-subheading">Closed-Loop Grasping Benchmark</h3>
-    <p class="method-desc">90 total trials: 3 difficulty levels × 3 objects × 10 trials each.</p>
+    <h3 class="title is-4 method-subheading">Cross-Scene Cognitive Attack Classification</h3>
+    <p class="method-desc">CADAR achieves <strong>74.6% overall accuracy</strong> and <strong>84.2% F1-score</strong>, outperforming the next best baseline (GPT-5-mini) by 16% and attaining the highest class-specific accuracy and F1 in 23 out of 25 attack–scene blocks.</p>
 
-    <div class="figure-block" style="margin-top:0; margin-bottom:1.5rem;">
-      <img src="./figures/fig6.png" alt="Difficulty condition examples: Easy, Medium, Hard">
-      <p class="figure-caption"><strong>Figure 6.</strong> Representative grasping scenarios for each difficulty level. Easy: single object, no visual occlusion. Medium: some visual occlusion with distractors. Hard: heavy visual occlusion and multiple objects per frame.</p>
+    <!-- Per-method accuracy bars -->
+    <div class="difficulty-cards" style="margin-bottom:2rem;">
+      <div class="diff-card" style="border-top:3px solid #363636;">
+        <div class="diff-header">
+          <span class="diff-badge" style="background:#f0f0f0;color:#363636;">CADAR (Ours)</span>
+        </div>
+        <div class="diff-objects">
+          <div class="diff-obj"><span class="obj-name">Text</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:72%;background:#363636;"></div></div>
+            <span class="obj-score">72.0%</span></div>
+          <div class="diff-obj"><span class="obj-name">Visual</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:73.4%;background:#363636;"></div></div>
+            <span class="obj-score">73.4%</span></div>
+          <div class="diff-obj"><span class="obj-name">Obstruction</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:80.7%;background:#363636;"></div></div>
+            <span class="obj-score">80.7%</span></div>
+          <div class="diff-obj"><span class="obj-name">Injection</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:75.6%;background:#363636;"></div></div>
+            <span class="obj-score">75.6%</span></div>
+          <div class="diff-obj"><span class="obj-name">Non-attack</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:71.5%;background:#363636;"></div></div>
+            <span class="obj-score">71.5%</span></div>
+        </div>
+        <div class="diff-total"><span>Overall Avg Acc / F1</span><strong>74.6% / 84.2%</strong></div>
+      </div>
+
+      <div class="diff-card" style="border-top:3px solid #3b82f6;">
+        <div class="diff-header">
+          <span class="diff-badge" style="background:#eff6ff;color:#3b82f6;">GPT-5-mini</span>
+        </div>
+        <div class="diff-objects">
+          <div class="diff-obj"><span class="obj-name">Text</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:55.2%;background:#3b82f6;"></div></div>
+            <span class="obj-score">55.2%</span></div>
+          <div class="diff-obj"><span class="obj-name">Visual</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:53.7%;background:#3b82f6;"></div></div>
+            <span class="obj-score">53.7%</span></div>
+          <div class="diff-obj"><span class="obj-name">Obstruction</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:58.5%;background:#3b82f6;"></div></div>
+            <span class="obj-score">58.5%</span></div>
+          <div class="diff-obj"><span class="obj-name">Injection</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:60.9%;background:#3b82f6;"></div></div>
+            <span class="obj-score">60.9%</span></div>
+          <div class="diff-obj"><span class="obj-name">Non-attack</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:65.1%;background:#3b82f6;"></div></div>
+            <span class="obj-score">65.1%</span></div>
+        </div>
+        <div class="diff-total"><span>Overall Avg Acc / F1</span><strong>58.7% / 73.4%</strong></div>
+      </div>
+
+      <div class="diff-card" style="border-top:3px solid #8b5cf6;">
+        <div class="diff-header">
+          <span class="diff-badge" style="background:#f5f3ff;color:#8b5cf6;">Gemini-2.5-flash</span>
+        </div>
+        <div class="diff-objects">
+          <div class="diff-obj"><span class="obj-name">Text</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:60.4%;background:#8b5cf6;"></div></div>
+            <span class="obj-score">60.4%</span></div>
+          <div class="diff-obj"><span class="obj-name">Visual</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:53.9%;background:#8b5cf6;"></div></div>
+            <span class="obj-score">53.9%</span></div>
+          <div class="diff-obj"><span class="obj-name">Obstruction</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:50.4%;background:#8b5cf6;"></div></div>
+            <span class="obj-score">50.4%</span></div>
+          <div class="diff-obj"><span class="obj-name">Injection</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:60.3%;background:#8b5cf6;"></div></div>
+            <span class="obj-score">60.3%</span></div>
+          <div class="diff-obj"><span class="obj-name">Non-attack</span>
+            <div class="success-bar-wrap"><div class="success-bar" style="width:44.3%;background:#8b5cf6;"></div></div>
+            <span class="obj-score">44.3%</span></div>
+        </div>
+        <div class="diff-total"><span>Overall Avg Acc / F1</span><strong>53.9% / 69.3%</strong></div>
+      </div>
     </div>
 
-    <div class="difficulty-cards">
-
-      <div class="diff-card diff-easy">
-        <div class="diff-header">
-          <span class="diff-badge badge-easy">Easy</span>
-          <span class="diff-desc">Single object, minimal occlusion</span>
-        </div>
-        <div class="diff-objects">
-          <div class="diff-obj">
-            <span class="obj-name">Brown Block</span>
-            <div class="success-bar-wrap"><div class="success-bar" style="width:70%"></div></div>
-            <span class="obj-score">7/10</span>
-          </div>
-          <div class="diff-obj">
-            <span class="obj-name">Bubble Wrap</span>
-            <div class="success-bar-wrap"><div class="success-bar" style="width:100%"></div></div>
-            <span class="obj-score">10/10</span>
-          </div>
-          <div class="diff-obj">
-            <span class="obj-name">Pink Bottle</span>
-            <div class="success-bar-wrap"><div class="success-bar" style="width:90%"></div></div>
-            <span class="obj-score">9/10</span>
-          </div>
-        </div>
-        <div class="diff-total"><span>Overall</span><strong>86.7%</strong></div>
+    <!-- Accuracy comparison chart -->
+    <div class="method-block">
+      <h3 class="title is-4 method-subheading">Per-Attack Accuracy Comparison</h3>
+      <p class="method-desc">Grouped bar chart of class-specific accuracy across all methods. CADAR consistently leads across all attack types.</p>
+      <div class="likert-chart-wrap" style="max-width:100%;">
+        <canvas id="accuracy-chart" height="120"></canvas>
       </div>
-
-      <div class="diff-card diff-medium">
-        <div class="diff-header">
-          <span class="diff-badge badge-medium">Medium</span>
-          <span class="diff-desc">Distractors, partial occlusion</span>
-        </div>
-        <div class="diff-objects">
-          <div class="diff-obj">
-            <span class="obj-name">Brown Rect Prism</span>
-            <div class="success-bar-wrap"><div class="success-bar" style="width:80%"></div></div>
-            <span class="obj-score">8/10</span>
-          </div>
-          <div class="diff-obj">
-            <span class="obj-name">Yellow Tape</span>
-            <div class="success-bar-wrap"><div class="success-bar" style="width:80%"></div></div>
-            <span class="obj-score">8/10</span>
-          </div>
-          <div class="diff-obj">
-            <span class="obj-name">Letter 'T'</span>
-            <div class="success-bar-wrap"><div class="success-bar" style="width:70%"></div></div>
-            <span class="obj-score">7/10</span>
-          </div>
-        </div>
-        <div class="diff-total"><span>Overall</span><strong>76.7%</strong></div>
-      </div>
-
-      <div class="diff-card diff-hard">
-        <div class="diff-header">
-          <span class="diff-badge badge-hard">Hard</span>
-          <span class="diff-desc">Heavy clutter, high occlusion</span>
-        </div>
-        <div class="diff-objects">
-          <div class="diff-obj">
-            <span class="obj-name">Blk/Ylw Screwdriver</span>
-            <div class="success-bar-wrap"><div class="success-bar" style="width:70%"></div></div>
-            <span class="obj-score">7/10</span>
-          </div>
-          <div class="diff-obj">
-            <span class="obj-name">Magenta Marker</span>
-            <div class="success-bar-wrap"><div class="success-bar" style="width:50%"></div></div>
-            <span class="obj-score">5/10</span>
-          </div>
-          <div class="diff-obj">
-            <span class="obj-name">Lime Green Scissors</span>
-            <div class="success-bar-wrap"><div class="success-bar" style="width:50%"></div></div>
-            <span class="obj-score">5/10</span>
-          </div>
-        </div>
-        <div class="diff-total"><span>Overall</span><strong>56.7%</strong></div>
-      </div>
-
     </div>
 
-    <!-- User study -->
+    <!-- Scene complexity -->
     <div class="method-block" style="margin-top:3rem;">
-      <h3 class="title is-4 method-subheading">User Study — Goal State Quality (Likert 1–5)</h3>
-      <p class="method-desc">31 participants aged 15–45. Average rating: <strong>4.18</strong> (σ = 1.14). Over 50% of responses in every category rated the visualization a 5.</p>
-      <div class="likert-chart-wrap">
-        <canvas id="likert-chart" height="160"></canvas>
-      </div>
-      <div class="us-cards">
-        <div class="us-card">
-          <div class="us-card-header">Two-Group Cross Constraints</div>
-          <div class="us-card-prompt">"Move all large bottles to the left side and all small cubes to the right side"</div>
-          <div class="us-card-vis">
-            <div class="shelf-vis">
-              <div class="shelf-region shelf-left-reg" style="left:4%;width:42%;top:8%;height:82%">
-                <span class="shelf-label">large bottles</span>
-              </div>
-              <div class="shelf-region shelf-right-reg" style="left:54%;width:42%;top:8%;height:82%">
-                <span class="shelf-label">small cubes</span>
-              </div>
-            </div>
-          </div>
-          <div class="us-card-rating">
-            <span class="us-rating-label">Rate 1–5</span>
-            <div class="us-rating-pips">
-              <div class="us-pip">1</div><div class="us-pip">2</div><div class="us-pip">3</div><div class="us-pip">4</div><div class="us-pip">5</div>
-            </div>
-          </div>
-        </div>
-        <div class="us-card">
-          <div class="us-card-header">Triple-Attribute Filtering</div>
-          <div class="us-card-prompt">"Place all small red metal objects on the top shelf"</div>
-          <div class="us-card-vis">
-            <div class="shelf-vis">
-              <div class="shelf-region shelf-top-reg" style="top:6%;left:5%;width:90%;height:38%">
-                <span class="shelf-label">small red metal</span>
-              </div>
-            </div>
-          </div>
-          <div class="us-card-rating">
-            <span class="us-rating-label">Rate 1–5</span>
-            <div class="us-rating-pips">
-              <div class="us-pip">1</div><div class="us-pip">2</div><div class="us-pip">3</div><div class="us-pip">4</div><div class="us-pip">5</div>
-            </div>
-          </div>
-        </div>
-        <div class="us-card">
-          <div class="us-card-header">Three-Way Spatial Partition</div>
-          <div class="us-card-prompt">"Place red objects on top, metal objects in the middle, and striped objects on the bottom"</div>
-          <div class="us-card-vis">
-            <div class="shelf-vis">
-              <div class="shelf-region shelf-top-reg" style="top:4%;left:5%;width:90%;height:26%">
-                <span class="shelf-label">red</span>
-              </div>
-              <div class="shelf-region shelf-mid-reg" style="top:37%;left:5%;width:90%;height:26%">
-                <span class="shelf-label">metal</span>
-              </div>
-              <div class="shelf-region shelf-bot-reg" style="top:70%;left:5%;width:90%;height:26%">
-                <span class="shelf-label">striped</span>
-              </div>
-            </div>
-          </div>
-          <div class="us-card-rating">
-            <span class="us-rating-label">Rate 1–5</span>
-            <div class="us-rating-pips">
-              <div class="us-pip">1</div><div class="us-pip">2</div><div class="us-pip">3</div><div class="us-pip">4</div><div class="us-pip">5</div>
-            </div>
-          </div>
-        </div>
-        <div class="us-card">
-          <div class="us-card-header">Overlapping Constraints</div>
-          <div class="us-card-prompt">"Move all smooth blue objects to the right side and all textured blue objects to the left side"</div>
-          <div class="us-card-vis">
-            <div class="shelf-vis">
-              <div class="shelf-region shelf-left-reg" style="left:4%;width:42%;top:8%;height:82%">
-                <span class="shelf-label">textured blue</span>
-              </div>
-              <div class="shelf-region shelf-right-reg" style="left:54%;width:42%;top:8%;height:82%">
-                <span class="shelf-label">smooth blue</span>
-              </div>
-            </div>
-          </div>
-          <div class="us-card-rating">
-            <span class="us-rating-label">Rate 1–5</span>
-            <div class="us-rating-pips">
-              <div class="us-pip">1</div><div class="us-pip">2</div><div class="us-pip">3</div><div class="us-pip">4</div><div class="us-pip">5</div>
-            </div>
-          </div>
-        </div>
+      <h3 class="title is-4 method-subheading">Effect of Scene Complexity</h3>
+      <p class="method-desc">CADAR's structural perception graph maintains stable recall as object count and reference frames increase. Conventional VLMs degrade sharply due to sensitivity to long visual/textual context.</p>
+      <div class="figure-block">
+        <img src="./figures/frame_object_plot.png" alt="Recall over frames and objects" style="max-width:70%;">
+        <p class="figure-caption"><strong>Figure 7(a).</strong> Recall (%) under increasing reference frames and object quantities. CADAR accumulates prior evidence effectively via its temporal graph structure, whereas GPT-5-mini and Gemini-2.5-flash show sharp degradation.</p>
       </div>
     </div>
 
-    <!-- Comparison table -->
+    <!-- Hybrid and multiple attacks -->
     <div class="method-block" style="margin-top:3rem;">
-      <h3 class="title is-4 method-subheading">Training Data Comparison</h3>
-      <p class="method-desc">Per-task training data requirements across language-conditioned manipulation systems. Click a column header to sort.</p>
+      <h3 class="title is-4 method-subheading">Hybrid &amp; Multiple Attack Detection</h3>
+      <p class="method-desc">CADAR achieves the highest recall for both hybrid attack combinations and maintains the smallest performance drop as simultaneous attacks increase.</p>
       <div class="table-wrap">
-        <table class="comparison-table" id="comparison-table">
+        <table class="comparison-table">
           <thead>
             <tr>
-              <th class="sortable" data-col="paper">Paper <i class="fas fa-sort sort-icon"></i></th>
-              <th class="sortable" data-col="demos">Demos / Task <i class="fas fa-sort sort-icon"></i></th>
-              <th>Training Type</th>
+              <th>Hybrid Attack Type</th>
+              <th>GPT-5-mini</th>
+              <th>Grok-4-fast</th>
+              <th>Gemini-2.5-flash</th>
+              <th style="background:#f9f6e8;">CADAR (Ours)</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>GEM</td><td data-val="15">10–20</td><td>Imitation</td></tr>
-            <tr><td>LEMMA</td><td data-val="800">800</td><td>Imitation</td></tr>
-            <tr><td>RFST</td><td data-val="1000">1,000</td><td>Imitation</td></tr>
-            <tr><td>ERRA</td><td data-val="300">300</td><td>Inference learning</td></tr>
-            <tr><td>RoboMamba</td><td data-val="500">~500</td><td>Sim fine-tune</td></tr>
-            <tr><td>MOO</td><td data-val="11800">~11.8K</td><td>Teleop imitation</td></tr>
-            <tr><td>LoHoRavens</td><td data-val="20000">20K</td><td>Primitive IL</td></tr>
-            <tr class="grasp-row"><td><strong>GRASP (Ours)</strong></td><td data-val="0"><strong>0</strong></td><td><strong>Zero-shot</strong></td></tr>
+            <tr>
+              <td>Text + Visual</td><td>35.0%</td><td>41.2%</td><td>29.9%</td>
+              <td style="background:#f9f6e8;"><strong>76.4%</strong></td>
+            </tr>
+            <tr>
+              <td>Obstruction + Injection</td><td>32.7%</td><td>26.1%</td><td>45.8%</td>
+              <td style="background:#f9f6e8;"><strong>80.4%</strong></td>
+            </tr>
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════ HARDWARE ══════════════════════ -->
-<section class="section" id="hardware">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 section-heading">Hardware Setup</h2>
-    <div class="hardware-layout">
-      <div class="hardware-img-wrap">
-        <!-- Replace with: static/images/robot_platform.jpg -->
-        <div class="hardware-placeholder">
-          <i class="fas fa-robot hardware-placeholder-icon"></i>
-          <p>Robot platform photo</p>
-          <p class="hardware-placeholder-hint">Upload as <code>static/images/robot_platform.jpg</code></p>
-        </div>
-        <div class="hardware-callout" style="top:22%;left:58%;">
-          <div class="callout-dot"></div>
-          <div class="callout-text">Shelf Webcam</div>
-        </div>
-        <div class="hardware-callout" style="top:42%;left:62%;">
-          <div class="callout-dot"></div>
-          <div class="callout-text">Differential Claw</div>
-        </div>
-        <div class="hardware-callout" style="top:60%;left:60%;">
-          <div class="callout-dot"></div>
-          <div class="callout-text">PiCam (end-effector)</div>
-        </div>
+      <div class="table-wrap" style="margin-top:1.25rem;">
+        <table class="comparison-table" id="comparison-table">
+          <thead>
+            <tr>
+              <th class="sortable" data-col="0">Method <i class="fas fa-sort sort-icon"></i></th>
+              <th class="sortable" data-col="1">1 Attack <i class="fas fa-sort sort-icon"></i></th>
+              <th class="sortable" data-col="2">2 Attacks <i class="fas fa-sort sort-icon"></i></th>
+              <th class="sortable" data-col="3">3 Attacks <i class="fas fa-sort sort-icon"></i></th>
+              <th class="sortable" data-col="4">4 Attacks <i class="fas fa-sort sort-icon"></i></th>
+              <th class="sortable" data-col="5">Avg <i class="fas fa-sort sort-icon"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>GPT-5-mini</td>
+              <td data-val="66.4">66.4%</td><td data-val="40.2">40.2%</td>
+              <td data-val="31.5">31.5%</td><td data-val="29.6">29.6%</td><td data-val="41.9">41.9%</td>
+            </tr>
+            <tr>
+              <td>Grok-4-fast</td>
+              <td data-val="69.7">69.7%</td><td data-val="55.0">55.0%</td>
+              <td data-val="51.3">51.3%</td><td data-val="36.5">36.5%</td><td data-val="53.1">53.1%</td>
+            </tr>
+            <tr>
+              <td>Gemini-2.5-flash</td>
+              <td data-val="61.7">61.7%</td><td data-val="43.6">43.6%</td>
+              <td data-val="33.0">33.0%</td><td data-val="31.5">31.5%</td><td data-val="42.5">42.5%</td>
+            </tr>
+            <tr class="grasp-row">
+              <td><strong>CADAR (Ours)</strong></td>
+              <td data-val="81.0"><strong>81.0%</strong></td><td data-val="78.3"><strong>78.3%</strong></td>
+              <td data-val="75.2"><strong>75.2%</strong></td><td data-val="67.2"><strong>67.2%</strong></td><td data-val="75.4"><strong>75.4%</strong></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="hardware-specs">
-        <div class="hw-spec-item">
-          <i class="fas fa-camera"></i>
-          <div>
-            <strong>Dual Camera System</strong>
-            <p>Fixed shelf webcam for global scene view + PiCam on end-effector for close-range object localization</p>
-          </div>
-        </div>
-        <div class="hw-spec-item">
-          <i class="fas fa-hand-rock"></i>
-          <div>
-            <strong>Differential Claw</strong>
-            <p>Controlled via RPY adjustments derived from bounding box center offsets — no learned motor policies</p>
-          </div>
-        </div>
-        <div class="hw-spec-item">
-          <i class="fas fa-bolt"></i>
-          <div>
-            <strong>Zero Fine-Tuning</strong>
-            <p>GroundingDINO + GPT used entirely off-the-shelf — no task-specific retraining required</p>
-          </div>
-        </div>
-      </div>
+      <p class="ablation-note" style="margin-top:0.75rem;"><i class="fas fa-info-circle"></i> Recall (%) under different numbers of simultaneous attacks. CADAR maintains strong performance as complexity grows, whereas baselines degrade substantially.</p>
     </div>
   </div>
 </section>
@@ -552,63 +498,23 @@
 <section class="section grasp-section-light" id="ablation">
   <div class="container is-max-desktop">
     <h2 class="title is-3 section-heading">Ablation Study</h2>
-    <p class="method-desc">Three conditions evaluated against the full GRASP system.</p>
+    <p class="method-desc">Two ablation conditions evaluate the contribution of CADAR's key components on a sample of 24 test videos (6 per base attack type).</p>
     <div class="ablation-cards">
       <div class="ablation-card">
         <div class="ablation-icon"><i class="fas fa-wave-square"></i></div>
-        <h4>No Smoothing &amp; Deadband</h4>
-        <p>Motion planning without exponential smoothing or deadband filtering. Isolates the contribution of noise-reduction to stable grasping.</p>
+        <h4>Estimation Module</h4>
+        <p>Without particle-filter weighting and resampling, text attack recall drops from ~81% to ~63% and visual attack recall drops from ~79% to ~55% as corrupted nodes pollute the reference set. Obstruction and injection attacks are less affected.</p>
       </div>
       <div class="ablation-card">
-        <div class="ablation-icon"><i class="fas fa-lock-open"></i></div>
-        <h4>Open-Loop vs. Closed-Loop</h4>
-        <p>Compares alignment quality when the system executes a fixed plan without re-evaluating scene state versus full closed-loop feedback.</p>
-      </div>
-      <div class="ablation-card">
-        <div class="ablation-icon"><i class="fas fa-random"></i></div>
-        <h4>Random Logit Selection</h4>
-        <p>Replaces highest-confidence G.DINO logit selection with random bounding box selection, isolating confidence-ranked targeting contribution.</p>
+        <div class="ablation-icon"><i class="fas fa-history"></i></div>
+        <h4>Number of Reference Frames</h4>
+        <p>Increasing reference frames from 3 to 11 improves text attack recall from ~52% to ~83% and visual attack recall from ~48% to ~79%. Obstruction and injection detection stays stable near 80% regardless of reference count.</p>
       </div>
     </div>
-    <div class="table-wrap" style="margin-top:1.25rem;">
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th>Loop</th>
-            <th>Smoothing</th>
-            <th>Deadband</th>
-            <th>Selection</th>
-            <th>Success Rate</th>
-            <th>Net Latency (s)</th>
-            <th>Inference (s)</th>
-            <th>Total (s)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Open</td><td>✓</td><td>✓</td><td>Highest logit</td>
-            <td>4/10</td><td>4.421</td><td>5.495</td><td>12.416</td>
-          </tr>
-          <tr>
-            <td>Closed</td><td>—</td><td>—</td><td>Highest logit</td>
-            <td>5/10</td><td>4.097</td><td>4.984</td><td>7.072</td>
-          </tr>
-          <tr>
-            <td>Closed</td><td>✓</td><td>✓</td><td>Random</td>
-            <td>3/10</td><td>3.560</td><td>3.377</td><td>6.001</td>
-          </tr>
-          <tr>
-            <td>Closed</td><td>✓</td><td>✓</td><td>First</td>
-            <td>4/10</td><td>3.537</td><td>3.244</td><td>4.134</td>
-          </tr>
-          <tr class="grasp-row">
-            <td><strong>Closed</strong></td><td><strong>✓</strong></td><td><strong>✓</strong></td><td><strong>Highest logit</strong></td>
-            <td><strong>8/10</strong></td><td><strong>3.539</strong></td><td><strong>3.444</strong></td><td><strong>4.036</strong></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="figure-block" style="margin-top:1.5rem;">
+      <img src="./figures/ablation_study.png" alt="Ablation study on estimation module and reference frames">
+      <p class="figure-caption"><strong>Figure 7(b)(c).</strong> Ablation studies on the estimation module (left) and the number of reference frames (right). Text and visual modification attacks benefit substantially from both components, while obstruction and injection attacks rely less on accumulated history.</p>
     </div>
-    <p class="ablation-note" style="margin-top:0.75rem;"><i class="fas fa-info-circle"></i> Highlighted row is the full GRASP system. All timing metrics averaged over 10 trials.</p>
   </div>
 </section>
 
@@ -617,10 +523,14 @@
   <div class="container is-max-desktop content">
     <h2 class="title is-3 section-heading">BibTeX</h2>
     <div class="bibtex-wrap">
-      <pre id="bibtex-code">@article{grasp2025,
-  title     = {GRASP: A Neuro-symbolic Approach for
-               Language-Conditioned Robot Manipulation},
-  author    = {Allison Andreyev and Landon Eum and Nestor Tiglao and Romel Gomez},
+      <pre id="bibtex-code">@inproceedings{chen2025cadar,
+  title     = {Cognitive Attack Detection in Augmented Reality ({CADAR}):
+               A Neuro-Symbolic Approach with Particle Filtering
+               on Perception Graphs},
+  author    = {Chen, Rongqian and Andreyev, Allison and Xiu, Yanming and
+               Chilukuri, Joshua and Sen, Shunav and Imani, Mahdi and
+               Li, Bin and Gorlatova, Maria and Tan, Gang and Lan, Tian},
+  booktitle = {CVPRF},
   year      = {2026},
 }</pre>
       <button class="bibtex-copy-btn" id="bibtex-copy-btn" title="Copy BibTeX">
@@ -643,7 +553,7 @@
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <a class="icon-link" href="https://github.com/allisonandreyev/arxaiv">
+      <a class="icon-link" href="">
         <i class="fab fa-github"></i>
       </a>
     </div>
