@@ -13,23 +13,19 @@ function initPipelineAnimation() {
 var ATTACK_INFO = {
   TEXT: {
     title: 'Type 1: Text Modification',
-    desc: 'Manipulates on-scene text — e.g., changing "NO PARKING" to "FREE PARKING" — to reverse intended meanings or inject false instructions, deceiving both human users and perception systems.',
-    detection: 'M(d)_i,t > χ²(k_d, α)  →  description embedding Mahalanobis distance exceeds chi-square threshold'
+    desc: 'Manipulates on-scene text — e.g., changing "NO PARKING" to "FREE PARKING" — to reverse intended meanings or inject false instructions, deceiving both human users and perception systems.'
   },
   VISUAL: {
     title: 'Type 2: Visual Modification',
-    desc: 'Distorts object appearance or placement — e.g., turning a green traffic light to red or relocating a stop sign — leading to recognition errors and misinformed user decisions.',
-    detection: 'M(f)_i,t > χ²(k_f, α)  →  visual feature embedding Mahalanobis distance exceeds chi-square threshold'
+    desc: 'Distorts object appearance or placement — e.g., turning a green traffic light to red or relocating a stop sign — leading to recognition errors and misinformed user decisions.'
   },
   OBSTRUCTION: {
     title: 'Type 3: Obstruction',
-    desc: 'Targets critical information by occluding or deleting essential cues like exit signs, disrupting safety awareness and breaking expected perception graph relations.',
-    detection: 'High-importance node (π ≥ π_high) absent for 2 consecutive frames → labeled obstruction attack'
+    desc: 'Targets critical information by occluding or deleting essential cues like exit signs, disrupting safety awareness and breaking expected perception graph relations.'
   },
   INJECTION: {
     title: 'Type 4: Injection',
-    desc: 'Introduces fictitious elements — fake hazard symbols, virtual labels — that embed misleading cues, divert user attention, and corrupt downstream reasoning processes.',
-    detection: 'NodeSet first appears within last 2 frames AND reasonability ρ ≤ ρ_low  →  labeled injection attack'
+    desc: 'Introduces fictitious elements — fake hazard symbols, virtual labels — that embed misleading cues, divert user attention, and corrupt downstream reasoning processes.'
   }
 };
 
@@ -47,7 +43,6 @@ function initAttackCards() {
         '<div class="fsm-info-content">' +
           '<h4>' + info.title + '</h4>' +
           '<p>' + info.desc + '</p>' +
-          '<span class="fsm-predicate">' + info.detection + '</span>' +
         '</div>';
     }
     el.addEventListener('click', activate);
