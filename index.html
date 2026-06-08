@@ -175,7 +175,7 @@
     </div>
 
     <div class="figure-block">
-      <img src="./figures/system_overview.png" alt="CADAR system overview" style="max-width:70%;">
+      <img loading="lazy" src="./figures/web/system_overview.png" alt="CADAR system overview" style="max-width:70%;">
       <p class="figure-caption"><strong>Figure 2.</strong> A system overview of CADAR. Sequential video frames are first transformed into spatial-temporal symbolic perception graphs. The attack-detection module then analyzes these graphs to identify, classify, and localize adversarial attacks such as visual modification and injection attacks.</p>
     </div>
   </div>
@@ -208,7 +208,7 @@
         <p class="fsm-hint"><i class="fas fa-info-circle"></i> Click an attack type above to see its description and detection mechanism</p>
       </div>
       <div class="figure-block" style="margin-top:1.5rem;">
-        <img src="./figures/attack_examples.png" alt="Illustrative AR/MR cognitive attacks">
+        <img loading="lazy" src="./figures/web/attack_examples.png" alt="Illustrative AR/MR cognitive attacks">
         <p class="figure-caption"><strong>Figure 1.</strong> Illustrative AR/MR cognitive attacks. Top row: original scenes; bottom row: manipulated scenes. (a) Text Modification Attack — alters on-scene text to reverse meaning. (b) Visual Modification Attack — distorts object color or placement. (c) Obstruction Attack — occludes critical cues. (d) Injection Attack — inserts fictitious elements.</p>
       </div>
     </div>
@@ -218,7 +218,7 @@
       <h3 class="title is-4 method-subheading">3.2 — Perception Graph Model</h3>
       <p class="method-desc">Given an AR frame I<sub>t</sub> and task context c<sub>t</sub>, a pre-trained VLM lifts the frame into a spatio-temporal perception graph G<sub>t</sub> = (V<sub>t</sub>, E<sub>t</sub>). Nodes represent objects with multimodal attributes (name, description, visual features, probability, importance, reasonability). Edges encode pairwise semantic relationships. Across time, NodeSets and EdgeSets stitch object instances into a persistent GraphSet Ĝ<sub>t</sub>.</p>
       <div class="figure-block">
-        <img src="./figures/perception_graph.png" alt="Symbolic perception graph generation">
+        <img loading="lazy" src="./figures/web/perception_graph.png" alt="Symbolic perception graph generation">
         <p class="figure-caption"><strong>Figure 3.</strong> Symbolic perception graph generation: given a video frame and its contextual description, VLMs generate the corresponding perception graph at time step t. Node and edge attributes are extracted via structured prompts to capture multimodal scene semantics.</p>
       </div>
     </div>
@@ -245,7 +245,7 @@
         </div>
       </div>
       <div class="figure-block">
-        <img src="./figures/attack_detection.png" alt="Particle filter-based attack detection framework">
+        <img loading="lazy" src="./figures/web/attack_detection.png" alt="Particle filter-based attack detection framework">
         <p class="figure-caption"><strong>Figure 4.</strong> The particle filter-based attack detection framework. Nodes are matched to persistent NodeSets, statistically tested for attacks via PCA + Mahalanobis distance, and then refined via weighted resampling. Attacked particles are isolated from the clean reference set.</p>
       </div>
     </div>
@@ -278,7 +278,7 @@
     </div>
 
     <div class="figure-block" style="margin-top:2rem;">
-      <img src="./figures/dataset_distribution_combined.png" alt="CADAR-50K dataset distribution">
+      <img loading="lazy" src="./figures/web/dataset_distribution_combined.png" alt="CADAR-50K dataset distribution">
       <p class="figure-caption"><strong>Figure 5.</strong> CADAR-50K dataset overview by scene category (left) and attack type (right). Non-attack and hybrid/multiple-attack videos are included for realistic evaluation.</p>
     </div>
 
@@ -309,19 +309,19 @@
       <div class="difficulty-cards">
         <div class="diff-card" style="overflow:hidden;">
           <div class="figure-block" style="margin:0;">
-            <img src="./figures/dataset1.png" alt="Dataset sample 1" style="border-radius:0;">
+            <img loading="lazy" src="./figures/web/dataset1.png" alt="Dataset sample 1" style="border-radius:0;">
           </div>
         </div>
         <div class="diff-card" style="overflow:hidden;">
           <div class="figure-block" style="margin:0;">
-            <img src="./figures/dataset2.png" alt="Dataset sample 2" style="border-radius:0;">
+            <img loading="lazy" src="./figures/web/dataset2.png" alt="Dataset sample 2" style="border-radius:0;">
           </div>
         </div>
       </div>
     </div>
 
     <div class="figure-block">
-      <img src="./figures/visualization.png" alt="Visualization examples of CADAR outputs">
+      <img loading="lazy" src="./figures/web/visualization.png" alt="Visualization examples of CADAR outputs">
       <p class="figure-caption"><strong>Figure 6.</strong> Visualization frame examples of CADAR outputs across five scene categories in CADAR-50K (375 videos). Rows show the Reference Scene, Detection Scene, and CADAR Output. Output attack types: I = Injection, V = Visual, T = Text, O = Obstruction, N = Non-attack. Some examples contain hybrid or multiple attacks.</p>
     </div>
   </div>
@@ -424,7 +424,7 @@
       <h3 class="title is-4 method-subheading">Effect of Scene Complexity</h3>
       <p class="method-desc">CADAR's structural perception graph maintains stable recall as object count and reference frames increase. Conventional VLMs degrade sharply due to sensitivity to long visual/textual context.</p>
       <div class="figure-block">
-        <img src="./figures/frame_object_plot.png" alt="Recall over frames and objects" style="max-width:70%;">
+        <img loading="lazy" src="./figures/web/frame_object_plot.png" alt="Recall over frames and objects" style="max-width:70%;">
         <p class="figure-caption"><strong>Figure 7(a).</strong> Recall (%) under increasing reference frames and object quantities. CADAR accumulates prior evidence effectively via its temporal graph structure, whereas GPT-5-mini and Gemini-2.5-flash show sharp degradation.</p>
       </div>
     </div>
@@ -515,7 +515,7 @@
       </div>
     </div>
     <div class="figure-block" style="margin-top:1.5rem;">
-      <img src="./figures/ablation_study.png" alt="Ablation study on estimation module and reference frames">
+      <img loading="lazy" src="./figures/web/ablation_study.png" alt="Ablation study on estimation module and reference frames">
       <p class="figure-caption"><strong>Figure 7(b)(c).</strong> Ablation studies on the estimation module (left) and the number of reference frames (right). Text and visual modification attacks benefit substantially from both components, while obstruction and injection attacks rely less on accumulated history.</p>
     </div>
   </div>
