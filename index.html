@@ -66,10 +66,10 @@
         <a href="https://arxiv.org/pdf/2508.09185" class="video-pill" target="_blank">
           <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span>
         </a>
-        <a href="" class="video-pill" target="_blank">
+        <a href="https://github.com/WillChan9/CADAR" class="video-pill" target="_blank">
           <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
         </a>
-        <a href="" class="video-pill" target="_blank">
+        <a href="https://drive.google.com/drive/folders/1SV8CC00cSCH_agok_h117sp9s2hzEljD?usp=drive_link" class="video-pill" target="_blank">
           <span class="icon"><i class="fas fa-database"></i></span><span>CADAR-50K Dataset</span>
         </a>
       </div>
@@ -419,16 +419,6 @@
       </div>
     </div>
 
-    <!-- Scene complexity -->
-    <div class="method-block" style="margin-top:3rem;">
-      <h3 class="title is-4 method-subheading">Effect of Scene Complexity</h3>
-      <p class="method-desc">CADAR's structural perception graph maintains stable recall as object count and reference frames increase. Conventional VLMs degrade sharply due to sensitivity to long visual/textual context.</p>
-      <div class="figure-block">
-        <img loading="lazy" src="./figures/web/frame_object_plot.png" alt="Recall over frames and objects" style="max-width:70%;">
-        <p class="figure-caption"><strong>Figure 7(a).</strong> Recall (%) under increasing reference frames and object quantities. CADAR accumulates prior evidence effectively via its temporal graph structure, whereas GPT-5-mini and Gemini-2.5-flash show sharp degradation.</p>
-      </div>
-    </div>
-
     <!-- Hybrid and multiple attacks -->
     <div class="method-block" style="margin-top:3rem;">
       <h3 class="title is-4 method-subheading">Hybrid &amp; Multiple Attack Detection</h3>
@@ -497,30 +487,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════ ABLATION ══════════════════════ -->
-<section class="section grasp-section-light" id="ablation">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 section-heading">Ablation Study</h2>
-    <p class="method-desc">Two ablation conditions evaluate the contribution of CADAR's key components on a sample of 24 test videos (6 per base attack type).</p>
-    <div class="ablation-cards">
-      <div class="ablation-card">
-        <div class="ablation-icon"><i class="fas fa-wave-square"></i></div>
-        <h4>Estimation Module</h4>
-        <p>Without particle-filter weighting and resampling, text attack recall drops from ~81% to ~63% and visual attack recall drops from ~79% to ~55% as corrupted nodes pollute the reference set. Obstruction and injection attacks are less affected.</p>
-      </div>
-      <div class="ablation-card">
-        <div class="ablation-icon"><i class="fas fa-history"></i></div>
-        <h4>Number of Reference Frames</h4>
-        <p>Increasing reference frames from 3 to 11 improves text attack recall from ~52% to ~83% and visual attack recall from ~48% to ~79%. Obstruction and injection detection stays stable near 80% regardless of reference count.</p>
-      </div>
-    </div>
-    <div class="figure-block" style="margin-top:1.5rem;">
-      <img loading="lazy" src="./figures/web/ablation_study.png" alt="Ablation study on estimation module and reference frames">
-      <p class="figure-caption"><strong>Figure 7(b)(c).</strong> Ablation studies on the estimation module (left) and the number of reference frames (right). Text and visual modification attacks benefit substantially from both components, while obstruction and injection attacks rely less on accumulated history.</p>
-    </div>
-  </div>
-</section>
-
 <!-- ══════════════════════ BIBTEX ══════════════════════ -->
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
@@ -556,7 +522,7 @@
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <a class="icon-link" href="">
+      <a class="icon-link" href="https://github.com/WillChan9/CADAR" target="_blank">
         <i class="fab fa-github"></i>
       </a>
     </div>
